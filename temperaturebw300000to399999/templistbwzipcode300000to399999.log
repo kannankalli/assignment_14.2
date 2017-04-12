@@ -1,0 +1,75 @@
+[acadgild@localhost ~]$ hive
+
+Logging initialized using configuration in jar:file:/usr/local/hive/lib/hive-common-0.14.0.jar!/hive-log4j.properties
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/local/hive/lib/hive-jdbc-0.14.0-standalone.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/usr/local/hadoop-2.6.0/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.slf4j.impl.Log4jLoggerFactory]
+hive> create database custom;
+OK
+Time taken: 4.302 seconds
+hive> use custom;
+OK
+Time taken: 0.228 seconds
+hive> create table temperature_data 
+    > (date date,zipcode int,temperature float)
+    > row format delimited
+    > fields terminated by ',';
+OK
+Time taken: 2.949 seconds
+hive> 
+    > create table temp 
+    > (date string,zipcode int,temperature float)
+    > row format delimited
+    > fields terminated by ',';
+OK
+Time taken: 0.383 seconds
+hive> load data local inpath '/home/acadgild/Downloads/dataset_Session_14.txt' into table temp;
+Loading data to table custom.temp
+Table custom.temp stats: [numFiles=1, totalSize=437]
+OK
+Time taken: 7.946 seconds
+hive> insert into table temperature_data select to_date(from_unixtime(unix_timestamp(date,'dd-MM-yyyy'),'yyyy-MM-dd')),zipcode,temperature from temp;
+Query ID = acadgild_20170401171515_977f9c8c-aa87-465f-9e93-d68ffc5ecd63
+Total jobs = 3
+Launching Job 1 out of 3
+Number of reduce tasks is set to 0 since there's no reduce operator
+Starting Job = job_1491017400247_0004, Tracking URL = http://localhost:8088/proxy/application_1491017400247_0004/
+Kill Command = /home/acadgild/hadoop-2.6.0/bin/hadoop job  -kill job_1491017400247_0004
+Hadoop job information for Stage-1: number of mappers: 1; number of reducers: 0
+2017-04-01 17:17:49,124 Stage-1 map = 0%,  reduce = 0%
+2017-04-01 17:18:51,323 Stage-1 map = 0%,  reduce = 0%
+2017-04-01 17:19:52,480 Stage-1 map = 0%,  reduce = 0%
+2017-04-01 17:20:53,307 Stage-1 map = 0%,  reduce = 0%
+2017-04-01 17:21:40,296 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 13.1 sec
+MapReduce Total cumulative CPU time: 13 seconds 100 msec
+Ended Job = job_1491017400247_0004
+Stage-4 is selected by condition resolver.
+Stage-3 is filtered out by condition resolver.
+Stage-5 is filtered out by condition resolver.
+Moving data to: hdfs://localhost:9000/tmp/hive/acadgild/bd072c70-3aa1-4f9d-8bb6-a0311fed602c/hive_2017-04-01_17-15-48_125_1528869820240558243-1/-ext-10000
+Loading data to table custom.temperature_data
+Table custom.temperature_data stats: [numFiles=1, numRows=20, totalSize=459, rawDataSize=439]
+MapReduce Jobs Launched: 
+Stage-Stage-1: Map: 1   Cumulative CPU: 14.81 sec   HDFS Read: 670 HDFS Write: 539 SUCCESS
+Total MapReduce CPU Time Spent: 14 seconds 810 msec
+OK
+Time taken: 392.753 seconds
+hive> select date,temperature,zipcode from temperature_data where zipcode between 300000 and 399999;
+OK
+1990-03-10	15.0	381920
+1991-01-10	22.0	302918
+1990-02-12	9.0	384902
+1991-03-10	16.0	381920
+1990-01-10	23.0	302918
+1991-02-12	10.0	384902
+1993-03-10	16.0	381920
+1994-01-10	23.0	302918
+1991-02-12	10.0	384902
+1991-03-10	16.0	381920
+1990-01-10	23.0	302918
+1991-02-12	10.0	384902
+Time taken: 0.613 seconds, Fetched: 12 row(s)
+hive> 
+
