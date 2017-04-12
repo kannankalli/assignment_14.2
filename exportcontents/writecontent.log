@@ -1,0 +1,33 @@
+
+hive> insert overwrite local directory '/home/acadgild/Downloads/temp_output' row format delimited 
+    > fields terminated by '|' select * from temperature_data_view;
+Query ID = acadgild_20170401235555_caeed2de-8027-439c-a1bc-217ff8e88eb3
+Total jobs = 1
+Launching Job 1 out of 1
+Number of reduce tasks not specified. Estimated from input data size: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1491017400247_0018, Tracking URL = http://localhost:8088/proxy/application_1491017400247_0018/
+Kill Command = /home/acadgild/hadoop-2.6.0/bin/hadoop job  -kill job_1491017400247_0018
+Hadoop job information for Stage-1: number of mappers: 1; number of reducers: 1
+2017-04-01 23:57:19,328 Stage-1 map = 0%,  reduce = 0%
+2017-04-01 23:58:19,518 Stage-1 map = 0%,  reduce = 0%
+2017-04-01 23:59:00,426 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 14.82 sec
+2017-04-02 00:00:00,570 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 14.82 sec
+2017-04-02 00:00:20,544 Stage-1 map = 100%,  reduce = 67%, Cumulative CPU 18.59 sec
+2017-04-02 00:00:48,032 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 30.65 sec
+MapReduce Total cumulative CPU time: 30 seconds 650 msec
+Ended Job = job_1491017400247_0018
+Copying data to local directory /home/acadgild/Downloads/temp_output
+Copying data to local directory /home/acadgild/Downloads/temp_output
+MapReduce Jobs Launched: 
+Stage-Stage-1: Map: 1  Reduce: 1   Cumulative CPU: 32.78 sec   HDFS Read: 690 HDFS Write: 40 SUCCESS
+Total MapReduce CPU Time Spent: 32 seconds 780 msec
+OK
+Time taken: 321.067 seconds
+                                                   
+
